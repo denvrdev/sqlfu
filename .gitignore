@@ -3,3 +3,4 @@
 /bazel-out
 /bazel-sqlfu
 /bazel-testlogs
+/.project
