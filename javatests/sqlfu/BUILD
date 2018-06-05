@@ -8,6 +8,9 @@ load("//tools/build_defs:java_individual_tests.bzl", "java_individual_tests")
 java_individual_tests(
     name = "tests",
     srcs = glob(["*Test.java"]),
+    resources = [
+        "test.sqlite",
+    ],
     deps = [
         "//java/sqlfu",
         "//java/sqlfu/util/test:AssertThrows",
