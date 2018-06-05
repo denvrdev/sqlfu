@@ -20,6 +20,24 @@ java_import_external(
 )
 
 java_import_external(
+    name = "com_google_guava_testlib",
+    licenses = ["notice"],
+    testonly_ = True,
+    jar_urls = [
+        "http://central.maven.org/maven2/com/google/guava/guava-testlib/25.1-jre/guava-testlib-25.1-jre.jar",
+    ],
+    jar_sha256 = "1acf988596d2cd1ad2c04cf524f979c3e8546898cd1770bdc007f2f268d7b664",
+    srcjar_urls = [
+        "http://central.maven.org/maven2/com/google/guava/guava-testlib/25.1-jre/guava-testlib-25.1-jre-sources.jar",
+    ],
+    srcjar_sha256 = "f9f54ad3f897de996611ad46b74680a568ed14def7414d7b00a3d1bcc1adf0ff",
+    deps = [
+        "@com_google_code_findbugs_jsr305",
+        "@com_google_errorprone_error_prone_annotations",
+    ],
+)
+
+java_import_external(
     name = "com_google_code_findbugs_jsr305",
     licenses = ["notice"],
     jar_urls = [
@@ -127,4 +145,21 @@ java_import_external(
         "http://central.maven.org/maven2/javax/inject/javax.inject/1/javax.inject-1-sources.jar",
     ],
     srcjar_sha256 = "c4b87ee2911c139c3daf498a781967f1eb2e75bc1a8529a2e7b328a15d0e433e",
+)
+
+java_import_external(
+    name = "com_google_guiceberry",
+    licenses = ["notice"],
+    testonly_ = True,
+    jar_urls = [
+        "http://central.maven.org/maven2/com/google/guiceberry/guiceberry/3.3.1/guiceberry-3.3.1.jar",
+    ],
+    jar_sha256 = "937c6411ba0c027e09be2c0c3aa1a342adc2a6b8449ef71033c7920abe70248c",
+    srcjar_urls = [
+        "http://central.maven.org/maven2/com/google/guiceberry/guiceberry/3.3.1/guiceberry-3.3.1-sources.jar",
+    ],
+    srcjar_sha256 = "1aec340faad53a99be6079163a40cfc6cac710d90d596c8d87fe0b673812788a",
+    deps = [
+        "@com_google_guava_testlib",
+    ]
 )
