@@ -14,8 +14,9 @@ java_individual_tests(
         "//java/sqlfu/util/test:GuiceRule",
         "//java/sqlfu/util/test:InMemoryFileSystemProvider",
         "@com_google_guava",
-        "@com_google_inject_guice",
+        "@com_google_guiceberry",
         "@com_google_truth",
+        "@javax_inject",
         "@junit",
     ],
 )

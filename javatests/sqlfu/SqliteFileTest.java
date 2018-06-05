@@ -6,7 +6,8 @@ import static sqlfu.SqliteFile.HEADER_NUM_BYTES;
 import static sqlfu.util.test.AssertThrows.assertThrows;
 
 import com.google.common.primitives.Bytes;
-import com.google.inject.AbstractModule;
+import com.google.guiceberry.GuiceBerryModule;
+import com.google.guiceberry.junit4.GuiceBerryRule;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
@@ -23,13 +24,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import sqlfu.util.test.GuiceRule;
 import sqlfu.util.test.InMemoryFileSystemProvider;
 
 @RunWith(JUnit4.class)
 public class SqliteFileTest {
 
-  @Rule public final GuiceRule guiceRule = new GuiceRule(this, MyModule.class);
+  @Rule public final GuiceBerryRule guiceBerry = new GuiceBerryRule(MyGuiceBerryModule.class);
 
   @Inject private SqliteFileFactory sqliteFileFactory;
 
@@ -192,10 +192,11 @@ public class SqliteFileTest {
     }
   }
 
-  public static final class MyModule extends AbstractModule {
+  public static final class MyGuiceBerryModule extends GuiceBerryModule {
 
     @Override
     protected void configure() {
+      super.configure();
       bind(FileSystem.class).toProvider(InMemoryFileSystemProvider.class);
     }
   }
