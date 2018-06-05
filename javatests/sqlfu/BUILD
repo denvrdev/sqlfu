@@ -10,9 +10,11 @@ java_individual_tests(
     srcs = glob(["*Test.java"]),
     deps = [
         "//java/sqlfu",
-        "//java/sqlfu/util/test",
-        "@com_google_jimfs",
+        "//java/sqlfu/util/test:AssertThrows",
+        "//java/sqlfu/util/test:GuiceRule",
+        "//java/sqlfu/util/test:InMemoryFileSystemProvider",
         "@com_google_guava",
+        "@com_google_inject_guice",
         "@com_google_truth",
         "@junit",
     ],

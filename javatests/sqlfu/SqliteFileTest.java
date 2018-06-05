@@ -5,30 +5,33 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static sqlfu.SqliteFile.HEADER_NUM_BYTES;
 import static sqlfu.util.test.AssertThrows.assertThrows;
 
-import com.google.common.jimfs.Configuration;
-import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Bytes;
-import java.io.*;
+import com.google.inject.AbstractModule;
+import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import org.junit.Before;
+import javax.inject.Inject;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import sqlfu.util.test.GuiceRule;
+import sqlfu.util.test.InMemoryFileSystemProvider;
 
 @RunWith(JUnit4.class)
 public class SqliteFileTest {
 
-  private SqliteFileFactory sqliteFileFactory;
+  @Rule public final GuiceRule guiceRule = new GuiceRule(this, MyModule.class);
 
-  @Before
-  public void initVariables() {
-    sqliteFileFactory = new SqliteFileFactory();
-  }
+  @Inject private SqliteFileFactory sqliteFileFactory;
 
   @Test
   public void HEADER_NUM_BYTES_should_be_100() {
@@ -140,7 +143,7 @@ public class SqliteFileTest {
 
   private static final class SqliteFileFactory {
 
-    private final FileSystem fileSystem = Jimfs.newFileSystem(Configuration.unix());
+    @Inject private FileSystem fileSystem;
 
     SqliteFile forClosedChannel() {
       Path path = createEmptyFile();
@@ -186,6 +189,14 @@ public class SqliteFileTest {
         throw new UncheckedIOException(e);
       }
       return path;
+    }
+  }
+
+  public static final class MyModule extends AbstractModule {
+
+    @Override
+    protected void configure() {
+      bind(FileSystem.class).toProvider(InMemoryFileSystemProvider.class);
     }
   }
 }
