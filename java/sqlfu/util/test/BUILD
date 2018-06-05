@@ -16,3 +16,12 @@ java_library(
         "@junit",
     ]
 )
+
+java_library(
+    name = "InMemoryFileSystemProvider",
+    srcs = ["InMemoryFileSystemProvider.java"],
+    deps = [
+        "@javax_inject",
+        "@com_google_jimfs",
+    ]
+)
