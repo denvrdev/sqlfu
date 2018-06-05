@@ -86,3 +86,32 @@ java_import_external(
     ],
     srcjar_sha256 = "294e40be4ecbc8d7c25e6887774fcb004f178ea1dfa4988cfa7f2bc35516cf21",
 )
+
+java_import_external(
+    name = "com_google_inject_guice",
+    licenses = ["notice"],
+    jar_urls = [
+        "http://central.maven.org/maven2/com/google/inject/guice/4.2.0/guice-4.2.0.jar",
+    ],
+    jar_sha256 = "2865a82693f0b97f1ef3305a06f0aae3bfc3e63d71b33363af5ec2eed598acb8",
+    srcjar_urls = [
+        "http://central.maven.org/maven2/com/google/inject/guice/4.2.0/guice-4.2.0-sources.jar",
+    ],
+    srcjar_sha256 = "276bffcce41f9144445d67f3b7d35db38ea0c88c05795bfbd851ac9e39c91045",
+    deps = [
+        "@aopalliance",
+    ],
+)
+
+java_import_external(
+    name = "aopalliance",
+    licenses = ["unencumbered"],
+    jar_urls = [
+        "http://central.maven.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0.jar",
+    ],
+    jar_sha256 = "0addec670fedcd3f113c5c8091d783280d23f75e3acb841b61a9cdb079376a08",
+    srcjar_urls = [
+        "http://central.maven.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar",
+    ],
+    srcjar_sha256 = "e6ef91d439ada9045f419c77543ebe0416c3cdfc5b063448343417a3e4a72123",
+)
