@@ -22,7 +22,7 @@ import java.nio.channels.SeekableByteChannel;
  * <p>This class is <em>not</em> thread-safe; the behaviour of all methods in this class if invoked
  * concurrently from multiple threads is undefined.
  */
-public class SqliteFile {
+public final class SqliteFile {
 
   /** The number of bytes in the SQLite file header. */
   public static final int HEADER_NUM_BYTES = 100;
