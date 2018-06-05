@@ -39,6 +39,11 @@ public class SqliteFileTest {
   }
 
   @Test
+  public void constructor_throwsNullPointerExceptionOnNullArguments() {
+    assertThrows(NullPointerException.class, () -> new SqliteFileHeaderParser(null));
+  }
+
+  @Test
   public void readHeader_throwsEOFExceptionIfFileIsEmpty() {
     SqliteFile sqliteFile = sqliteFileFactory.forEmptyFile();
 
