@@ -4,6 +4,15 @@ package(
 )
 
 java_library(
-    name = "test",
-    srcs = glob(["*.java"]),
+    name = "AssertThrows",
+    srcs = ["AssertThrows.java"],
+)
+
+java_library(
+    name = "GuiceRule",
+    srcs = ["GuiceRule.java"],
+    deps = [
+        "@com_google_inject_guice",
+        "@junit",
+    ]
 )
