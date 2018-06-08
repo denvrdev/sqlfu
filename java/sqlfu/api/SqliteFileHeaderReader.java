@@ -24,7 +24,7 @@ public interface SqliteFileHeaderReader {
    * the position could be set to the beginning of the header bytes prior to reading them and then
    * left at the end of the header bytes after reading them; however, since an implementation is
    * free to implement this functionality however it wants this may not actually occur (e.g. if the
-   * header bytes are cached and returned from memeory in a future invocation).
+   * header bytes are cached and returned from memory in a future invocation).
    *
    * <p>A reference to the returned {@link ByteBuffer} may be stored internally and re-used during a
    * future invocation of a method on this object; therefore, the caller must not use the returned
