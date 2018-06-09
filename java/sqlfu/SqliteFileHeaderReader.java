@@ -6,9 +6,9 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import sqlfu.annotations.ReturnValuePreparedForRead;
-import sqlfu.annotations.ReturnsNewObject;
-import sqlfu.annotations.TransientReturnValue;
+import denvr.annotations.ReturnValuePreparedForRead;
+import denvr.annotations.ReturnsNewObject;
+import denvr.annotations.TransientReturnValue;
 
 /** Reads the SQLite file header bytes from a file. */
 @NotThreadSafe

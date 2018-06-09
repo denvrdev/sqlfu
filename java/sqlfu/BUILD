@@ -4,6 +4,7 @@ java_library(
     name = "sqlfu",
     srcs = glob(["*.java"]),
     deps = [
-        "@com_google_guava",
+        "//java/denvr/annotations",
+        "@com_google_code_findbugs_jsr305",
     ]
 )

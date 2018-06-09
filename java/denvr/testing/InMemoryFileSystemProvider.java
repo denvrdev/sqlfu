@@ -1,4 +1,4 @@
-package sqlfu.util.test;
+package denvr.testing;
 
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;

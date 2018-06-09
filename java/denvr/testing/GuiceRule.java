@@ -1,4 +1,4 @@
-package sqlfu.util.test;
+package denvr.testing;
 
 import com.google.inject.*;
 import org.junit.rules.TestRule;

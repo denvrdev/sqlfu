@@ -1,4 +1,4 @@
-package sqlfu.util.test;
+package denvr.testing;
 
 /**
  * Backport of {@code assertThrows} from JUnit 4.13.
