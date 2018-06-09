@@ -1,8 +1,8 @@
-package sqlfu.api;
+package sqlfu;
 
+import denvr.annotations.ReturnsNewObject;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import denvr.annotations.ReturnsNewObject;
 
 /** Decodes the raw bytes of an SQLite file header into friendly objects. */
 @NotThreadSafe

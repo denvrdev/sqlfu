@@ -6,5 +6,6 @@ java_library(
     deps = [
         "//java/denvr/annotations",
         "@com_google_code_findbugs_jsr305",
+        "@com_google_guava",
     ]
 )

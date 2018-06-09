@@ -1,65 +1,64 @@
-package sqlfu.api;
+package sqlfu;
 
+import denvr.annotations.ReturnsNewObject;
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SeekableByteChannel;
+import java.nio.file.Path;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.annotation.concurrent.ThreadSafe;
-import denvr.annotations.ReturnValuePreparedForRead;
-import denvr.annotations.ReturnsNewObject;
-import denvr.annotations.TransientReturnValue;
 
 /** Reads the SQLite file header bytes from a file. */
 @NotThreadSafe
-public interface SqliteFileHeaderReader {
-
-  /** The size of the SQLite file header, in bytes. */
-  int SQLITE_FILE_HEADER_NUM_BYTES = 100;
+public interface SqliteFileHeaderReader extends AutoCloseable {
 
   /**
-   * Reads the SQLite header bytes from the encapsulated file and returns them.
+   * Reads some or all of the SQLite header bytes from the encapsulated file and writes them into
+   * the given {@link ByteBuffer}.
    *
-   * <p>The position of the encapsulated file may be changed by invoking this method. For example,
-   * the position could be set to the beginning of the header bytes prior to reading them and then
-   * left at the end of the header bytes after reading them; however, since an implementation is
-   * free to implement this functionality however it wants this may not actually occur (e.g. if the
-   * header bytes are cached and returned from memory in a future invocation).
+   * <p>Each invocation of this method will read a chunk of bytes and write them into the given
+   * {@link ByteBuffer}, at most {@link ByteBuffer#remaining()} bytes. When this method returns, the
+   * {@link ByteBuffer#position()} will be after the last byte written.
    *
-   * <p>A reference to the returned {@link ByteBuffer} may be stored internally and re-used during a
-   * future invocation of a method on this object; therefore, the caller must not use the returned
-   * {@link ByteBuffer} after any future invocation of a method on this object.
+   * <p>If {@link ReadResult#NO_MORE_BYTES_AVAILBLE} is returned then all bytes of the SQLite file
+   * header have been read and returned. All subsequent invocations of this method on this object
+   * will then write zero bytes into the {@link ByteBuffer} and return {@link
+   * ReadResult#NO_MORE_BYTES_AVAILBLE}.
    *
-   * @return a {@link ByteBuffer} containing the SQLite header bytes read from the encapsulated
-   *     file; the position will be set to the first byte of the header and the limit will be set
-   *     after the last byte.
-   * @throws IOException if reading from the encapsulated file throws it.
-   * @throws EOFException if the number of SQLite header bytes available in the encapsulated file is
-   *     less than {@link #SQLITE_FILE_HEADER_NUM_BYTES}.
+   * <p>If {@link ReadResult#MORE_BYTES_AVAILBLE} is returned then only <em>some</em> of the bytes
+   * of the SQLite file header were written into the given {@link ByteBuffer}. A subsequent
+   * invocation will be required to get the next chunk of bytes.
+   *
+   * @throws IOException if reading from the encapsulated file throws it or if {@link #close()} has
+   *     been invoked.
+   * @throws EOFException if the file is too small to contain a complete SQLite file header.
    */
-  @ReturnValuePreparedForRead
-  @TransientReturnValue
-  ByteBuffer read() throws IOException;
+  ReadResult read(ByteBuffer byteBuffer) throws IOException;
+
+  /**
+   * Close any underlying connections to files and release the resources.
+   *
+   * @throws IOException if thrown when closing the underlying file.
+   */
+  @Override
+  void close() throws IOException;
+
+  /** The result of invoking {@link #read}. */
+  enum ReadResult {
+
+    /** There are more bytes available to be read. */
+    MORE_BYTES_AVAILBLE,
+
+    /** There are no more bytes available to be read. */
+    NO_MORE_BYTES_AVAILBLE,
+  }
 
   /** Creates instances of {@link SqliteFileHeaderReader}. */
   @ThreadSafe
   interface Factory {
 
-    /**
-     * Creates and returns a new {@link SqliteFileHeaderReader} that reads the bytes from the given
-     * channel. It assumes that the header bytes are at the standard byte offset of a typical SQLite
-     * database.
-     */
+    /** Creates and returns a new {@link SqliteFileHeaderReader} that reads from the given file. */
     @ReturnsNewObject
-    SqliteFileHeaderReader create(SeekableByteChannel channel);
-
-    /**
-     * Creates and returns a new {@link SqliteFileHeaderReader} that reads the bytes from the given
-     * buffer. It assumes that the header bytes are at the standard byte offset of a typical SQLite
-     * database. Only bytes between the position and limit are read, treating the position at the
-     * time when this method was invoked as the first byte of the file.
-     */
-    @ReturnsNewObject
-    SqliteFileHeaderReader create(ByteBuffer byteBuffer);
+    SqliteFileHeaderReader create(Path path);
   }
 }

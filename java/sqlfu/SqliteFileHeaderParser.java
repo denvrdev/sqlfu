@@ -1,11 +1,11 @@
-package sqlfu.api;
+package sqlfu;
 
-import java.nio.ByteBuffer;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
 import denvr.annotations.ReturnValuePreparedForRead;
 import denvr.annotations.ReturnsNewObject;
 import denvr.annotations.TransientReturnValue;
+import java.nio.ByteBuffer;
+import javax.annotation.concurrent.NotThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /** Splits the bytes of an SQLite file header into its component parts. */
 @NotThreadSafe
