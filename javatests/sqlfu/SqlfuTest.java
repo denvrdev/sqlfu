@@ -1,6 +1,7 @@
 package sqlfu;
 
 import static com.google.common.truth.Truth.assertThat;
+import static denvr.testing.AssertThrows.assertThrows;
 
 import com.google.guiceberry.GuiceBerryModule;
 import com.google.guiceberry.junit4.GuiceBerryRule;
@@ -42,6 +43,14 @@ public class SqlfuTest {
     assertThat(reader1).isNotSameAs(reader2);
   }
 
+  @Test
+  public void newSqliteFileHeaderReader_throwsIOExceptionIfFileCannotBeOpened() {
+    Path path = createSampleFile();
+    deleteFile(path);
+
+    assertThrows(IOException.class, () -> Sqlfu.newSqliteFileHeaderReader(path));
+  }
+
   private Path createSampleFile() {
     Path path = inMemoryFileSystem.getPath("SampleFile.sqlite");
     createEmptyFile(path);
@@ -51,6 +60,14 @@ public class SqlfuTest {
   private static void createEmptyFile(Path path) {
     try {
       Files.newOutputStream(path).close();
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  private static void deleteFile(Path path) {
+    try {
+      Files.delete(path);
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
