@@ -161,5 +161,6 @@ java_import_external(
     srcjar_sha256 = "1aec340faad53a99be6079163a40cfc6cac710d90d596c8d87fe0b673812788a",
     deps = [
         "@com_google_guava_testlib",
+        "@com_google_inject_guice",
     ]
 )
