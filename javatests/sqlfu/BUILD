@@ -13,6 +13,7 @@ java_individual_tests(
     ],
     deps = [
         "//java/denvr/testing:AssertThrows",
+        "//java/denvr/testing:FileSystemUtil",
         "//java/denvr/testing:InMemoryFileSystemProvider",
         "//java/sqlfu",
         "@com_google_guava",

@@ -5,11 +5,10 @@ import static denvr.testing.AssertThrows.assertThrows;
 
 import com.google.guiceberry.GuiceBerryModule;
 import com.google.guiceberry.junit4.GuiceBerryRule;
+import denvr.testing.FileSystemUtil;
 import denvr.testing.InMemoryFileSystemProvider;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.FileSystem;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import javax.inject.Inject;
 import org.junit.Rule;
@@ -22,11 +21,11 @@ public class SqlfuTest {
 
   @Rule public final GuiceBerryRule guiceBerryRule = new GuiceBerryRule(MyGuiceBerryModule.class);
 
-  @Inject private FileSystem inMemoryFileSystem;
+  @Inject private FileSystemUtil fileSystemUtil;
 
   @Test
   public void newSqliteFileHeaderReader_returnsNonNull() throws IOException {
-    Path path = createSampleFile();
+    Path path = fileSystemUtil.createFile();
 
     SqliteFileHeaderReader reader = Sqlfu.newSqliteFileHeaderReader(path);
 
@@ -35,7 +34,7 @@ public class SqlfuTest {
 
   @Test
   public void newSqliteFileHeaderReader_returnsNewObject() throws IOException {
-    Path path = createSampleFile();
+    Path path = fileSystemUtil.createFile();
 
     SqliteFileHeaderReader reader1 = Sqlfu.newSqliteFileHeaderReader(path);
     SqliteFileHeaderReader reader2 = Sqlfu.newSqliteFileHeaderReader(path);
@@ -45,32 +44,9 @@ public class SqlfuTest {
 
   @Test
   public void newSqliteFileHeaderReader_throwsIOExceptionIfFileCannotBeOpened() {
-    Path path = createSampleFile();
-    deleteFile(path);
+    Path path = fileSystemUtil.getNonExistentPath();
 
     assertThrows(IOException.class, () -> Sqlfu.newSqliteFileHeaderReader(path));
-  }
-
-  private Path createSampleFile() {
-    Path path = inMemoryFileSystem.getPath("SampleFile.sqlite");
-    createEmptyFile(path);
-    return path;
-  }
-
-  private static void createEmptyFile(Path path) {
-    try {
-      Files.newOutputStream(path).close();
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
-  }
-
-  private static void deleteFile(Path path) {
-    try {
-      Files.delete(path);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
   }
 
   public static final class MyGuiceBerryModule extends GuiceBerryModule {
