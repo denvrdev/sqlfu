@@ -25,3 +25,11 @@ java_library(
         "@com_google_jimfs",
     ]
 )
+
+java_library(
+    name = "FileSystemUtil",
+    srcs = ["FileSystemUtil.java"],
+    deps = [
+        "@javax_inject",
+    ]
+)
