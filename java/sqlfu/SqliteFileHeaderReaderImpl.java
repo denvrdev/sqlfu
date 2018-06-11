@@ -20,7 +20,7 @@ final class SqliteFileHeaderReaderImpl implements SqliteFileHeaderReader {
   }
 
   @Override
-  public ReadResult read(final ByteBuffer byteBuffer) throws IOException {
+  public int read(final ByteBuffer byteBuffer) throws IOException {
     throw new UnsupportedOperationException();
   }
 }

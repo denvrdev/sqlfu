@@ -12,10 +12,9 @@ java_individual_tests(
         "test.sqlite",
     ],
     deps = [
+        "//java/denvr/testing:AssertThrows",
+        "//java/denvr/testing:InMemoryFileSystemProvider",
         "//java/sqlfu",
-        "//java/sqlfu/util/test:AssertThrows",
-        "//java/sqlfu/util/test:GuiceRule",
-        "//java/sqlfu/util/test:InMemoryFileSystemProvider",
         "@com_google_guava",
         "@com_google_guiceberry",
         "@com_google_truth",
